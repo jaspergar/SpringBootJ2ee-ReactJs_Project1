@@ -10,6 +10,7 @@ class Dashboard extends React.Component {
     this.props.getProjects();
   }
   render() {
+    const { projects } = this.props.project;
     return (
       //   <!-- Dashboard Component (Project Item included) -->
 
@@ -24,8 +25,9 @@ class Dashboard extends React.Component {
 
               <br />
               <hr />
-
-              <ProjectItem />
+              {projects.map(project => (
+                <ProjectItem key={project.id} project={project} />
+              ))}
             </div>
           </div>
         </div>
