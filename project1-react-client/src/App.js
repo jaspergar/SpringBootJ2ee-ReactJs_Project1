@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import AddProject from "./Components/Project/Logic/AddProject";
 import { Provider } from "react-redux";
 import store from "./store";
+import UpdateProject from "./Components/Project/Logic/UpdateProject";
 
 class App extends React.Component {
   render() {
@@ -15,8 +16,9 @@ class App extends React.Component {
         <Router>
           <div className="App">
             <Header />
-            <Route path="/dashBoard" component={Dashboard} />
-            <Route path="/addProject" component={AddProject} />
+            <Route exact path="/dashBoard" component={Dashboard} />
+            <Route exact path="/addProject" component={AddProject} />
+            <Route exact path="/updateProject/:id" component={UpdateProject} />
           </div>
         </Router>
       </Provider>
