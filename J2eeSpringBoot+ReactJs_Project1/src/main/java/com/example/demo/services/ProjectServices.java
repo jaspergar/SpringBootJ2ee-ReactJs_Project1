@@ -5,8 +5,10 @@ package com.example.demo.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.domain.Backlog;
 import com.example.demo.domain.Project;
 import com.example.demo.exception.ProjectIdException;
+import com.example.demo.repositories.BacklogRepository;
 import com.example.demo.repositories.ProjectRepository;
 
 
@@ -16,9 +18,27 @@ public class ProjectServices {
 	    @Autowired
 		private ProjectRepository projectRepository;
 	    
+	    @Autowired
+	    private BacklogRepository backlogRepository;
+	    
+	    private Long id;
 	    public Project saveOrUpdateProject(Project project) {
+	    	
 	    	try {
 	    		project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+	    	
+	    		//create Project Creating Backlog
+	    		if( project.getId()==null) {
+	    			Backlog backlog = new Backlog();
+	    			project.setBacklog(backlog);
+	    			backlog.setProject(project);
+	    			backlog.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+	    		}
+	    		//update project Retrieving Backlog
+	    		if(project.getId() != null) {
+	    			project.setBacklog(backlogRepository.findByProjectIdentifier(project.getProjectIdentifier().toUpperCase()));
+	    		}
+	    			 
 	    		return projectRepository.save(project);
 	    	}catch(Exception e) {
 	    		throw new ProjectIdException("Project ID '"+project.getProjectIdentifier().toUpperCase()+"' is already taken." );
