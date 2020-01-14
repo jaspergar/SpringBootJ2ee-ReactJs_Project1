@@ -15,8 +15,6 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
-
 @Entity
 public class Backlog {
  
@@ -25,13 +23,13 @@ public class Backlog {
 	private Long id;
 	private Integer PTSequence = 0;
 	private String projectIdentifier;
-		
+	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "project_id",nullable = false)
 	@JsonIgnore
 	private Project project;
 	
-	@OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, mappedBy = "backlog",orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.REFRESH, mappedBy = "backlog",orphanRemoval = true)
 	private List<ProjectTask> projectTask = new ArrayList<>();
 	
 	

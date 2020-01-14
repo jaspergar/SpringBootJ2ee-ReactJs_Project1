@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import UpdateProjectForm from "../Forms/UpdateProjectForm";
 import { connect } from "react-redux";
 import { getProjectByProjectIdentifier } from "../../../actions/projectActions";
 import PropTypes from "prop-types";
 import { createProject } from "../../../actions/projectActions";
+import AddOrUpdateProjectForm from "../Forms/AddOrUpdateProjectForm";
 
 class UpdateProject extends Component {
   constructor() {
@@ -70,7 +70,7 @@ class UpdateProject extends Component {
     const { errors } = this.state;
     return (
       <div>
-        <UpdateProjectForm
+        <AddOrUpdateProjectForm
           data={this.state}
           handleChange={this.handleChange}
           whenSubmit={this.whenSubmit}

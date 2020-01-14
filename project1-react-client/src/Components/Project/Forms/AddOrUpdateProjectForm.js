@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import classnames from "classnames";
 
-class AddProjectForm extends Component {
+class AddOrUpdateProjectForm extends Component {
   render() {
     return (
       <div className="project">
@@ -100,4 +100,4 @@ class AddProjectForm extends Component {
   }
 }
 
-export default AddProjectForm;
+export default AddOrUpdateProjectForm;

@@ -13,7 +13,7 @@ class ProjectBoard extends Component {
     };
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
+    if (nextProps.errors.projectNotFound) {
       this.setState({
         errors: nextProps.errors
       });
@@ -62,6 +62,7 @@ class ProjectBoard extends Component {
         <br />
         <hr />
         {projectBoardContent}
+        <h1></h1>
       </div>
     );
   }

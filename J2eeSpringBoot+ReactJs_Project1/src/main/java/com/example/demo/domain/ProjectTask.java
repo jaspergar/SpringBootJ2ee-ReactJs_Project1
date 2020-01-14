@@ -24,7 +24,7 @@ public class ProjectTask {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(updatable= false,unique = true)
+	@Column(updatable= false)
 	private String projectSequence;
 	@Column(updatable= false)
 	private String projectIdentifier;
@@ -48,24 +48,16 @@ public class ProjectTask {
 	}
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "backlog_id" , updatable = false,nullable = false)
+	@JoinColumn(name = "backlog_id",updatable = false,nullable = false)
 	@JsonIgnore
 	private Backlog backlog;
 	
 	
-	
-	public Backlog getBacklog() {
-		return backlog;
-	}
-
-	public void setBacklog(Backlog backlog) {
-		this.backlog = backlog;
-	}
-
+	//constructor
 	public ProjectTask() {
 	}
 
-	
+	//getter and setters	
 	
 	public Long getId() {
 		return id;
@@ -155,6 +147,14 @@ public class ProjectTask {
 				+ projectIdentifier + ", summary=" + summary + ", acceptanceCriteria=" + acceptanceCriteria
 				+ ", status=" + status + ", priority=" + priority + ", dueDate=" + dueDate + ", create_At=" + create_At
 				+ ", update_At=" + update_At + "]";
+	}
+
+	public Backlog getBacklog() {
+		return backlog;
+	}
+
+	public void setBacklog(Backlog backlog) {
+		this.backlog = backlog;
 	}
 	
 		

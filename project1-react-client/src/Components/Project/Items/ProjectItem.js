@@ -21,7 +21,7 @@ class ProjectItem extends Component {
             </div>
             <div className="col-lg-6 col-md-4 col-8">
               <h3>{project.projectName}</h3>
-              <p>{project.description}}</p>
+              <p>{project.description}</p>
             </div>
             <div className="col-md-4 d-none d-lg-block">
               <ul className="list-group">

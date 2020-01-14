@@ -45,13 +45,13 @@ public class BacklogController {
      public Iterable<ProjectTask> getAllPTById(@PathVariable String backlog_id){
     	 return projectTaskService.findPTById(backlog_id);
      }
-	 
+//	
      @GetMapping("/{backlog_id}/{pt_sequence}")
      public ResponseEntity<?> getPTByProjectSequence(@PathVariable String backlog_id,@PathVariable String pt_sequence){
     	  ProjectTask projectTask3 = projectTaskService.findPTByProjectSequence(backlog_id, pt_sequence);
          return new ResponseEntity<ProjectTask>(projectTask3,HttpStatus.OK);
      }
-     
+//     
      @PatchMapping("/{backlog_id}/{pt_sequence}")
      public ResponseEntity<?> updateProjectTask(@Valid @RequestBody ProjectTask updatePt,BindingResult result,@PathVariable String backlog_id,@PathVariable String pt_sequence){
     	 ResponseEntity<?> errorMapEntity = mapValidtionError.MapValidationService(result);
@@ -60,7 +60,7 @@ public class BacklogController {
     	 ProjectTask projectTask = projectTaskService.updateProjectTask(updatePt, backlog_id, pt_sequence);
     	 return new ResponseEntity<ProjectTask>(projectTask,HttpStatus.OK);
      }
-     
+//     
      @DeleteMapping("/{backlog_id}/{pt_sequence}")
      public ResponseEntity<?> deletePT(@PathVariable String backlog_id,@PathVariable String pt_sequence){
         projectTaskService.deleteProjectTask(backlog_id, pt_sequence);
