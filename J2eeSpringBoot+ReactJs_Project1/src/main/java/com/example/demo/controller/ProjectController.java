@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.security.Principal;
 
 import javax.validation.Valid;
 
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,13 +34,13 @@ public class ProjectController {
 	private MapValidtionError mapValidationError;
 	
 	@PostMapping
-	public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project,BindingResult result){
+	public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project,BindingResult result,Principal principal){
 		//logic
 			   
 	     ResponseEntity<?> errorMap = mapValidationError.MapValidationService(result);
 		 if(errorMap !=null) return errorMap;
 	     
-		Project project1 = projectServices.saveOrUpdateProject(project);
+		Project project1 = projectServices.saveOrUpdateProject(project,principal.getName());
 		return new ResponseEntity<Project>(project1, HttpStatus.CREATED);
 	}
 	

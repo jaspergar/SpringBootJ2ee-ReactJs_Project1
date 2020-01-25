@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.Backlog;
 import com.example.demo.domain.Project;
+import com.example.demo.domain.User;
 import com.example.demo.exception.ProjectIdException;
 import com.example.demo.repositories.BacklogRepository;
 import com.example.demo.repositories.ProjectRepository;
+import com.example.demo.repositories.UserRepository;
 
 
 @Service
@@ -21,10 +23,18 @@ public class ProjectServices {
 	    @Autowired
 	    private BacklogRepository backlogRepository;
 	    
+	    @Autowired
+	    private UserRepository userRepository;
+	    
 	    private Long id;
-	    public Project saveOrUpdateProject(Project project) {
+	    public Project saveOrUpdateProject(Project project,String username) {
 	    	
 	    	try {
+	    		
+	    		User user = userRepository.findByUsername(username);
+	    		project.setUser(user);
+	    		project.setProjectLeader(user.getUsername());
+//	    		
 	    		project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
 	    	
 	    		//create Project Creating Backlog
