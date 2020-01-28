@@ -9,6 +9,7 @@ import com.example.demo.domain.Backlog;
 import com.example.demo.domain.Project;
 import com.example.demo.domain.User;
 import com.example.demo.exception.ProjectIdException;
+import com.example.demo.exception.ProjectNotFoundException;
 import com.example.demo.repositories.BacklogRepository;
 import com.example.demo.repositories.ProjectRepository;
 import com.example.demo.repositories.UserRepository;
@@ -29,8 +30,16 @@ public class ProjectServices {
 	    private Long id;
 	    public Project saveOrUpdateProject(Project project,String username) {
 	    	
-	    	try {
+	    	if(project.getId() != null) {
+	    		Project existingProject = projectRepository.findByProjectIdentifier(project.getProjectIdentifier());
 	    		
+	    		if(existingProject != null && !existingProject.getProjectLeader().equals(username)) {
+	    			throw new ProjectNotFoundException("Project not Found in your account");
+	    		}else if(existingProject == null) {
+	    			throw new ProjectNotFoundException("Project With ID of " +project.getId()+" is not found");
+	    		}
+	    }
+	    	try {
 	    		User user = userRepository.findByUsername(username);
 	    		project.setUser(user);
 	    		project.setProjectLeader(user.getUsername());
@@ -48,34 +57,32 @@ public class ProjectServices {
 	    		if(project.getId() != null) {
 	    			project.setBacklog(backlogRepository.findByProjectIdentifier(project.getProjectIdentifier().toUpperCase()));
 	    		}
-	    			 
 	    		return projectRepository.save(project);
+	    	
 	    	}catch(Exception e) {
 	    		throw new ProjectIdException("Project ID '"+project.getProjectIdentifier().toUpperCase()+"' is already taken." );
-	    	} 
+	    	}  
 	    	
 	    }
 	    
-	 public Project findProjectIdentifier(String projectIdentifier) {
+	 public Project findProjectIdentifier(String projectIdentifier,String username) {
 		 Project project =projectRepository.findByProjectIdentifier(projectIdentifier.toUpperCase());
 		 if(project ==null) { 
 			 throw new ProjectIdException("Project Identifier '"+projectIdentifier+"' Does not exist");
 		 }
+		 if(!project.getProjectLeader().equals(username)) {
+			 throw new ProjectNotFoundException("Project "+projectIdentifier+" Does not exist in your account");
+		 }
 		 return project;
 	 }
 	 
-	 public Iterable<Project> findAllProject(){
-		 Iterable<Project> projectIterable=projectRepository.findAll();
+	 public Iterable<Project> findAllProject(String username){
+		 Iterable<Project> projectIterable=projectRepository.findAllByProjectLeader(username);
 		 return projectIterable;
 	 }
 	 
-	 public void deleteProjectByIdentifier(String ProjectIdentifier) {
-		 Project project = projectRepository.findByProjectIdentifier(ProjectIdentifier.toUpperCase());
-		 if(project == null) {
-			 throw new ProjectIdException("Project Identifier '"+ProjectIdentifier+"' Does not exist");
-		 }
-       projectRepository.delete(project);
+	 public void deleteProjectByIdentifier(String ProjectIdentifier,String username) {
+       projectRepository.delete(findProjectIdentifier(ProjectIdentifier, username));
 	 }
-	
 	
 }
