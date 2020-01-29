@@ -1,8 +1,9 @@
-import { SET_USER } from "../actions/types";
+import { SET_USER, GET_ERRORS_LOGIN } from "../actions/types";
 
 const initialState = {
   user: {},
-  validToken: false
+  validToken: false,
+  errors: {}
 };
 
 const booleanActionPayload = payload => {
@@ -20,6 +21,10 @@ export default function(state = initialState, action) {
         ...state,
         user: action.payload,
         validToken: booleanActionPayload(action.payload)
+      };
+    case GET_ERRORS_LOGIN:
+      return {
+        errors: action.payload
       };
 
     default:

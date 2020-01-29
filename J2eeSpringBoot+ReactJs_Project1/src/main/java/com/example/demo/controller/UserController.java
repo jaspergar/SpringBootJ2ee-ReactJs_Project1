@@ -47,8 +47,9 @@ public class UserController {
 		
 		Authentication authentication = authenticationManager.authenticate(
 				 new UsernamePasswordAuthenticationToken(
-						 loginRequest.getPassword(), 
-						 loginRequest.getUsername()
+						 
+						 loginRequest.getUsername(),
+						 loginRequest.getPassword()
 						 )
 				 );
 		

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_ERRORS, SET_USER } from "./types";
+import { GET_ERRORS, SET_USER, GET_ERRORS_LOGIN } from "./types";
 import setJWTToken from "../Components/SecurityUtils/setJWTToken";
 import jwt_Decode from "jwt-decode";
 
@@ -32,7 +32,7 @@ export const loginUser = loginRequest => async dispatch => {
     });
   } catch (error) {
     dispatch({
-      type: GET_ERRORS,
+      type: GET_ERRORS_LOGIN,
       payload: error.response.data
     });
   }
