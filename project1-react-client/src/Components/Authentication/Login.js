@@ -16,11 +16,18 @@ class Login extends Component {
     this.whenSubmit = this.whenSubmit.bind(this);
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.security.validToken) {
-  //     this.props.histroy.push("/dashboard");
-  //   }
-  // }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.security.validToken) {
+      this.props.history.push("/dashboard");
+    }
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
+  componentDidMount() {
+    this.props.security.validToken && this.props.history.push("/dashboard");
+  }
 
   handleChange(event) {
     const { name, value } = event.target;
@@ -49,22 +56,32 @@ class Login extends Component {
                 <div className="form-group">
                   <input
                     type="text"
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.username
+                    })}
                     placeholder="Username"
                     name="username"
                     value={this.state.username}
                     onChange={this.handleChange}
                   />
+                  {errors.username && (
+                    <div className="invalid-feedback">{errors.username}</div>
+                  )}
                 </div>
                 <div className="form-group">
                   <input
                     type="password"
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.password
+                    })}
                     placeholder="Password"
                     name="password"
                     value={this.state.password}
                     onChange={this.handleChange}
                   />
+                  {errors.password && (
+                    <div className="invalid-feedback">{errors.password}</div>
+                  )}
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
@@ -81,7 +98,7 @@ Login.propTypes = {
   security: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
-  errors: state.errors,
+  errors: state.security.errors,
   security: state.security
 });
 export default connect(mapStateToProps, { loginUser })(Login);
